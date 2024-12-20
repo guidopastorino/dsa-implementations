@@ -6,8 +6,8 @@ This repository contains custom implementations of various data structures and a
   - Linked List
   - Stack
   - Queue
-  - Hash Table
   - Trees
+  - Hash Table
 
 ## Getting Started
 
