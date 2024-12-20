@@ -33,7 +33,9 @@ This repository contains custom implementations of various data structures and a
     make
     ```
     This will automatically compile the necessary C files.
+
 <br/>
+
 4. If you prefer to compile manually using GCC, use the following command (replacing filename.c with the name of the C file you wish to compile):
 
     ```
