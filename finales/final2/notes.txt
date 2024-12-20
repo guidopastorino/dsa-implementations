@@ -1,0 +1,36 @@
+Notas:
+- Cuando un usuario se comunica, es atendido por un contestador autom ́atico que le solicita ingresar su n ́umero de documento y a continuaci ́on es puesto en espera
+- el pr ́oximo en ser atendido es el que haya estado en espera por
+mayor cantidad de tiempo.
+- Es posible que un usuario cuelgue antes de ser atendido, y en ese caso debe ser
+quitado de la espera
+- os usuarios premium deben ser
+siempre atendidos antes que los dem ́as. (si hay m ́as de un usuario premium en espera, debe
+atenderse antes al que haya pagado la membres ́ıa por m ́as tiempo)
+
+________________________
+
+typedef struct {
+  int dni;
+  int tiempoEnEspera; // en segundos
+  int esPremium;
+  int tiempoDeMembresia; // en segundos
+} Usuario;
+
+________________________
+
+Elegir una (o m ́as de una) ED para almacenar todos los usuarios de la empresa, e implementar
+operaciones:
+Agregar un nuevo usuario.
+Buscar un usuario dado
+
+ED Elegida: BST (Olog(n))
+
+________________________
+
+Elegir una (o m ́as de una) ED para gestionar los usuarios en espera, e implementar operaciones para:
+Agregar un usuario en espera. (insert)
+Remover un usuario dado de la espera. (delete)
+Mostrar el pr ́oximo usuario a ser atendido seg ́un la pol ́ıtica de la empresa. (extract_max)
+
+ED Elegida: Cola de prioridad con un MaxHeap

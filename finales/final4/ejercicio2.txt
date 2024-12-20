@@ -1,0 +1,9 @@
+a) Diferencia entre un árbol binario completo ordenado y un heap binario:
+- Árbol binario completo ordenado:
+Es un árbol binario completo donde, además de ser completo, se mantiene una propiedad adicional: el valor de cada nodo es mayor que el de su subárbol izquierdo y menor que el de su subárbol derecho.
+Esta propiedad es similar a un árbol binario de búsqueda (BST), donde los elementos se mantienen ordenados, pero en un árbol binario completo, los nodos están llenos en su mayoría.
+- Heap binario:
+En un heap binario (ya sea min-heap o max-heap), se cumple una propiedad diferente: el valor de cada nodo es, respectivamente, menor (en el caso de un min-heap) o mayor (en un max-heap) que los valores de sus hijos, pero no hay ninguna restricción sobre el orden entre nodos hermanos, ni entre los nodos en niveles distintos.
+Es utilizado principalmente en estructuras como colas de prioridad.
+
+En resumen, el árbol binario completo ordenado mantiene un orden estricto en los valores de los nodos (mayor a la izquierda, menor a la derecha), mientras que el heap binario tiene una restricción más débil (cada nodo es mayor o menor que sus hijos, sin garantizar un orden entre nodos hermanos o entre niveles).

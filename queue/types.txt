@@ -1,0 +1,11 @@
+- Simple Queue
+- Linked List Simple Queue
+- Circular Queue
+- Priority Queue
+  - Ascending priority queue
+  - Descending priority queue
+  - Priority Queue using a Heap (max or min)
+- Double Ended Queue (Deque)
+  - Input Restricted Deque
+  - Output Restricted Deque
+  - Circular Deque

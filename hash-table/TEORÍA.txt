@@ -1,0 +1,22 @@
+What is Load Factor?
+A hash table’s load factor is determined by how many elements are kept there in relation to how big the table is. The table may be cluttered and have longer search times and collisions if the load factor is high. An ideal load factor can be maintained with the use of a good hash function and proper table resizing.
+
+What is a Hash Function?
+A function that translates keys to array indices is known as a hash function. The keys should be evenly distributed across the array via a decent hash function to reduce collisions and ensure quick lookup speeds.
+  - Integer Universe Assumption: The keys are assumed to be integers within a certain range according to the integer universe assumption. This enables the use of basic hashing operations like division or multiplication hashing.
+  - Hashing by Division: This straightforward hashing technique uses the key’s remaining value after dividing it by the array’s size as the index. When an array size is a prime number and the keys are evenly spaced out, it performs well.
+  - Hashing by Multiplication: This straightforward hashing operation multiplies the key by a constant between 0 and 1 before taking the fractional portion of the outcome. After that, the index is determined by multiplying the fractional component by the array’s size. Also, it functions effectively when the keys are scattered equally.
+
+Types of Hash Tables:
+1. Open Addressing: In this method, all elements are stored within the array itself. When a collision occurs, the algorithm probes the array to find the next available slot.
+  - Linear Probing: If a collision occurs, the next slot (index + 1) is checked, continuing until an empty slot is found.
+  - Quadratic Probing: In case of a collision, instead of checking the next index directly, the algorithm checks the next index at an increasing quadratic distance (index + 1^2, index + 2^2, etc.). i.e: (index + i^2).
+  - Double Hashing: If a collision occurs, a second hash function is applied to find the next index. This helps reduce clustering issues.
+
+2. Separate Chaining: Each table index points to a linked list (or another data structure, like a tree). Collisions are handled by adding the colliding elements into the list at the corresponding index.
+  - Linked List: A simple linked list where each entry at a table index points to the head of a list of colliding elements.
+  - Binary Search Tree (BST): Each index can point to a binary search tree (or AVL tree) instead of a linked list, offering faster search times for large sets of colliding elements.
+  - AVL Tree: An AVL tree is a self-balancing binary search tree that ensures log(n) lookup times, even for sets of colliding elements.
+  - Red-Black Tree: A self-balancing binary search tree similar to AVL, but with slightly different balancing rules, providing log(n) search times.
+
+3. Robin Hood Hashing: This method is an improvement over linear probing. When collisions happen, it attempts to reduce the "distance" of a key from its original position, by giving priority to keys that have been displaced more than others. This helps in reducing clustering and improves performance by balancing out the search times for all keys.

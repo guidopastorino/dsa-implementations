@@ -1,0 +1,12 @@
+Un Min-Heap es una estructura de datos basada en un Arbol Binario completo, lo cual asegura que el elemento más pequeño está en la raíz del heap.
+¿Por que la búsqueda del máximo elemento se limita a recorrer más de la mitad del Heap?
+Para encontrar el máximo elemento en un Min-Heap, no necesitamos recorrer todos los elementos del árbol. Sabemos que la propiedad del heap garantiza que todos los elementos en el subárbol izquierdo y derecho de la raíz están por encima de la raíz en términos de valores. Dado que un Min-Heap organiza los elementos de tal forma que la raíz tiene el valor mínimo, los valores máximos se ubicarán en las hojas del árbol, que están en los niveles más bajos del heap.
+
+Observación: La raíz y todos los nodos que tienen hijos están garantizados de ser más pequeños que al menos uno de sus hijos. Por lo tanto, no es necesario recorrer más que los elementos hojas, es decir, los nodos que están en el último nivel del árbol o el penúltimo nivel.
+
+Procedimiento para encontrar el máximo:
+  - Identificar las hojas: En un árbol binario completo, las hojas están ubicadas en los últimos niveles. Específicamente, en un Min-Heap con n elementos, las hojas se encuentran en los nodos desde el índice n/2 hasta n-1 (en un arreglo, la numeración es 0-based). Estos nodos representan los elementos sin hijos.
+  - Recorrer las hojas: Una vez que se identifican las hojas, basta con recorrerlos y seleccionar el mayor de esos elementos.
+  - Resultado: El mayor de los elementos en las hojas será el máximo del heap.
+
+Nota: Como la mayoría de los nodos internos del Min-Heap tienen valores más pequeños que sus hijos, la búsqueda del máximo solo necesita limitarse a las hojas, lo que reduce la cantidad de elementos que tenemos que examinar a menos de la mitad de los elementos del heap.
