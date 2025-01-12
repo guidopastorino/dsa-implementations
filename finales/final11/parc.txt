@@ -1,9 +1,0 @@
-1) Queremos elegir una estructura de datos para almacenar palabras. En la cual se pide hacer las sig funciones:
-  - Insertar una palabra
-  - Buscar palabras que empiecen con los primeros tres caracteres pasados
-  - Contar ocurrencias de palabras que empiecen con un caracter
-  - Eliminar una palabra
-
-2) Dadas 3 listas generales (void*) ordenadas, se pide que:
-  - haga una funcion para unir las 3 listas
-  - haga una función para ordenar la lista dependiendo de la funcion comparación que se pase.
