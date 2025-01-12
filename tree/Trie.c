@@ -1,153 +1,144 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include <string.h>
+#include <assert.h>
 
 #define ALPHABET_SIZE 26
 
-// Definición de un nodo en el Trie
 typedef struct TrieNode {
-    struct TrieNode* children[ALPHABET_SIZE]; // Arreglo de punteros a los nodos hijos
-    bool isEndOfWord;  // Marca si este nodo es el final de una palabra
+  struct TrieNode* children[ALPHABET_SIZE];
+  int isEndOfWord;
 } TrieNode;
 
-// Función para crear un nuevo nodo
+// Crear un nodo Trie
 TrieNode* createNode() {
-  TrieNode* newNode = (TrieNode*)malloc(sizeof(TrieNode));
-  if (newNode) {
-      newNode->isEndOfWord = false;
-      for (int i = 0; i < ALPHABET_SIZE; i++) {
-          newNode->children[i] = NULL;
-      }
+  TrieNode* node = (TrieNode*)malloc(sizeof(TrieNode));
+  assert(node != NULL);
+  for (int i = 0; i < ALPHABET_SIZE; i++) {
+    node->children[i] = NULL;
   }
-  return newNode;
+  node->isEndOfWord = 0;
+  return node;
 }
 
-// Función para insertar una palabra en el Trie
-void insert(TrieNode* root, const char* word) {
-  TrieNode* currentNode = root;
-  while (*word) {
-      int index = *word - 'a';  // Calcular índice para el carácter
-      if (currentNode->children[index] == NULL) {
-          currentNode->children[index] = createNode();
-      }
-      currentNode = currentNode->children[index];
-      word++;
+// Insertar una palabra en el Trie
+void insert(TrieNode* root, char* word) {
+  TrieNode* current = root;
+
+  for (int i = 0; word[i] != 0; i++) {
+    int index = word[i] - 'a';
+    if (!current->children[index]) {
+      current->children[index] = createNode();
+    }
+    current = current->children[index];
   }
-  currentNode->isEndOfWord = true;  // Marcar el final de la palabra
+
+  current->isEndOfWord = 1;
 }
 
-// Función para buscar una palabra en el Trie
-bool search(TrieNode* root, const char* word) {
-  TrieNode* currentNode = root;
-  while (*word) {
-      int index = *word - 'a';
-      if (currentNode->children[index] == NULL) {
-          return false;  // La palabra no existe
-      }
-      currentNode = currentNode->children[index];
-      word++;
+// Buscar una palabra en el Trie
+int search(TrieNode* root, char* word) {
+  TrieNode* current = root;
+
+  for (int i = 0; word[i] != 0; i++) {
+    int index = word[i] - 'a';
+
+    if (!current->children[index]) {
+      return 0;
+    }
+
+    current = current->children[index];
   }
-  return currentNode->isEndOfWord;  // Verificar si es el final de una palabra
+
+  return current->isEndOfWord;
 }
 
-// Función auxiliar para eliminar un nodo del Trie
-bool deleteHelper(TrieNode* root, const char* word, int depth) {
-  if (root == NULL) {
-    return false;
-  }
+// Eliminar una palabra del Trie
+int deleteHelper(TrieNode* root, char* word, int depth) {
+  if (root == NULL) return 0;
 
-  // Caso base: Si hemos llegado al final de la palabra
-  if (word[depth] == '\0') {
+  if (word[depth] == 0) {
     if (root->isEndOfWord) {
-      root->isEndOfWord = false;
+      root->isEndOfWord = 0;
     }
 
-    // Si no hay hijos, podemos eliminar el nodo
     for (int i = 0; i < ALPHABET_SIZE; i++) {
-      if (root->children[i] != NULL) {
-        return false;
-      }
+      if (root->children[i] != NULL) return 0;
     }
-    return true; // El nodo es eliminable
+
+    return 1;  // Nodo puede ser liberado
   }
 
-  // Recursión hacia el siguiente nodo
   int index = word[depth] - 'a';
   if (deleteHelper(root->children[index], word, depth + 1)) {
     free(root->children[index]);
     root->children[index] = NULL;
 
-    // Si el nodo actual no tiene hijos y no es el final de una palabra, lo podemos eliminar
     if (!root->isEndOfWord) {
       for (int i = 0; i < ALPHABET_SIZE; i++) {
-        if (root->children[i] != NULL) {
-          return false;
-        }
+        if (root->children[i] != NULL) return 0;
       }
-      return true; // El nodo es eliminable
+      return 1;  // Nodo puede ser liberado
     }
   }
-  return false;
+
+  return 0;
 }
 
-// Función para eliminar una palabra del Trie
-void delete(TrieNode* root, const char* word) {
-    deleteHelper(root, word, 0);
+// Función para eliminar una palabra
+void delete(TrieNode* root, char* word) {
+  deleteHelper(root, word, 0);
 }
 
-// Función auxiliar para imprimir las palabras
+// Imprimir todas las palabras en el Trie
 void printWordsHelper(TrieNode* root, char* word, int level) {
-  if (root == NULL) {
-    return;
-  }
+  if (root == NULL) return;
 
-  // Si el nodo es el final de una palabra, imprimimos la palabra
   if (root->isEndOfWord) {
-    word[level] = '\0';  // Finalizamos la palabra
+    word[level] = 0;
     printf("%s\n", word);
   }
 
-  // Recorremos todos los hijos
   for (int i = 0; i < ALPHABET_SIZE; i++) {
     if (root->children[i] != NULL) {
-      word[level] = i + 'a';  // Asignamos el carácter correspondiente
-      printWordsHelper(root->children[i], word, level + 1);  // Llamada recursiva
+      word[level] = i + 'a';
+      printWordsHelper(root->children[i], word, level + 1);
     }
   }
 }
 
-// Función para imprimir todas las palabras del Trie
 void printWords(TrieNode* root) {
-  char word[100];  // Asumimos que las palabras no son más largas de 100 caracteres
+  char word[100];
   printWordsHelper(root, word, 0);
 }
 
-// Función para verificar si existe alguna palabra que empiece con el prefijo dado
-bool startsWith(TrieNode* root, const char* prefix) {
-  TrieNode* currentNode = root;
-  while (*prefix) {
-    int index = *prefix - 'a';  // Calcular índice para el carácter del prefijo
-    if (currentNode->children[index] == NULL) {
-      return false;  // No existe el prefijo
+// Comprobar si hay palabras con cierto prefijo
+int startsWith(TrieNode* root, char* prefix) {
+  TrieNode* current = root;
+
+  for (int i = 0; prefix[i] != 0; i++) {
+    int index = prefix[i] - 'a';
+
+    if (!current->children[index]) {
+      return 0;
     }
-    currentNode = currentNode->children[index];
-    prefix++;
+
+    current = current->children[index];
   }
-  return true;  // El prefijo existe en el Trie
+
+  return 1;
 }
 
-// Función para liberar la memoria del Trie
+// Liberar la memoria del Trie
 void freeTrie(TrieNode* root) {
-  if (root == NULL) {
-    return;
-  }
-  for (int i = 0; i < ALPHABET_SIZE; i++) {
-    if (root->children[i] != NULL) {
-      freeTrie(root->children[i]);
+  if (root != NULL) {
+    for (int i = 0; i < ALPHABET_SIZE; i++) {
+      if (root->children[i] != NULL) {
+        freeTrie(root->children[i]);
+      }
     }
+    free(root);
   }
-  free(root);
 }
 
 int main() {
@@ -173,6 +164,6 @@ int main() {
   printf("\nPalabras en el Trie después de eliminar 'hello':\n");
   printWords(root);
 
-  freeTrie(root);  // Liberar la memoria del Trie
+  freeTrie(root);  // Liberar memoria
   return 0;
 }
